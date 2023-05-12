@@ -8,14 +8,20 @@
 </head>
 <body>
 	<header>
-		<h1>The Sky</h1>
+		<h1 id="productTitle"></h1>
+        <div id="storeUserID" user-id=""></div>
+        <div id="storeVariantID" variant-id=""></div>
 	</header>
 	<main>
 		<section>
-			<h2 id="productTitle"></h2>
-			<p>added graph</p>
+            <div>
+                <img id="productImage" src="" alt="Description of the image" width="800">
+            </div>
             <button type="submit" id="addToCart" aria-label="Add Product to Cart">
                 Add To Cart
+            </button>
+            <button type="submit" id="viewCart" aria-label="See Whats In the Cart">
+                View Cart
             </button>
             
 		</section>
