@@ -24,6 +24,7 @@ const query = `
 
 const headers = {
   'Content-Type': 'application/json',
+  'Permissions-Policy': 'interest-cohort=()',
   'X-Shopify-Storefront-Access-Token': '5d5a8c181ff58af5e3473f6c439d9e4f',
 };
 
