@@ -8,9 +8,15 @@
 </head>
 <body>
 	<header>
-		<h1 id="productTitle"></h1>
-        <div id="storeUserID" user-id=""></div>
-        <div id="storeVariantID" variant-id=""></div>
+        <div>
+            <h1 id="productTitle"></h1>
+            <div id="storeUserID" user-id=""></div>
+            <div id="storeVariantID" variant-id=""></div>
+        </div>
+        <div>
+            <div id="cartQty">0</div>
+        </div>
+		
 	</header>
 	<main>
 		<section>
@@ -20,9 +26,9 @@
             <button type="submit" id="addToCart" aria-label="Add Product to Cart">
                 Add To Cart
             </button>
-            <button type="submit" id="viewCart" aria-label="See Whats In the Cart">
-                View Cart
-            </button>
+
+            <a id="checkOut" href="" title="Go to Checkout page" aria-label="Link to checkout page">CHECKOUT</a>
+
             
 		</section>
 	</main>
