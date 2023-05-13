@@ -35,6 +35,7 @@ const viewCart = () => {
     .then(response => {
         console.log("View Cart")
         console.log(response.data);
+        console.log(response.data.data.node.webUrl);
         checkOutLink.setAttribute('href', response.data.data.node.webUrl); 
         cartQty.textContent =  response.data.data.cart.totalQuantity
     })
@@ -114,11 +115,18 @@ axios.post('https://kd-email-test.myshopify.com/api/2023-04/graphql', { query:ge
 
 const addToCart = () => {
     const cartID = localStorage.getItem('cartID');
+    const checkOutID = localStorage.getItem('checkOutID');
     const variantIDAttribute = storeVariantID.getAttribute("variant-id");
 
     const addItemToCart = `
     mutation {
-        cartLinesAdd(cartId: "${cartID}", lines: {merchandiseId: "${variantIDAttribute}", quantity: 1}) {
+        checkoutLineItemsAdd(checkoutId: "${checkOutID}", lineItems: {quantity: 1, variantId: "${variantIDAttribute}"}) {
+            checkout {
+              webUrl
+              id
+            }
+        }
+        cartLinesAdd(cartId: "${cartID}", lines: {quantity: 1, merchandiseId: "${variantIDAttribute}"}) {
             cart {
               totalQuantity
             }
