@@ -1,5 +1,4 @@
 const cartID = localStorage.getItem('cartID');
-const checkOutID = localStorage.getItem('checkOutID');
 
 const addToCartButton = document.getElementById('addToCart');
 
@@ -22,21 +21,15 @@ const viewCart = () => {
     query {
         cart(id: "${cartID}") {
             totalQuantity
+            checkoutUrl
         }
-        node(id: "${checkOutID}") {
-            ... on Checkout {
-              id
-              webUrl
-            }
-          }
       }`;
 
     axios.post('https://kd-email-test.myshopify.com/api/2023-04/graphql', { query:viewCart }, { headers })
     .then(response => {
         console.log("View Cart")
         console.log(response.data);
-        console.log(response.data.data.node.webUrl);
-        checkOutLink.setAttribute('href', response.data.data.node.webUrl); 
+        checkOutLink.setAttribute('href', response.data.data.cart.checkoutUrl); 
         cartQty.textContent =  response.data.data.cart.totalQuantity
     })
     .catch(error => {
@@ -53,12 +46,7 @@ const createCart = () => {
             cart {
                 id
                 totalQuantity
-            }
-        }
-        checkoutCreate(input: {}) {
-            checkout {
-                id
-                webUrl
+                checkoutUrl
             }
         }
     }`;
@@ -68,8 +56,7 @@ const createCart = () => {
         console.log('Cart Data');
         console.log(response.data);
         localStorage.setItem('cartID', response.data.data.cartCreate.cart.id);
-        localStorage.setItem('checkOutID', response.data.data.checkoutCreate.checkout.id);
-        checkOutLink.setAttribute('href', response.data.data.checkoutCreate.checkout.webUrl); 
+        checkOutLink.setAttribute('href', response.data.data.cartCreate.cart.checkoutUrl); 
         cartQty.textContent =  response.data.data.cartCreate.cart.totalQuantity;    
     })
     .catch(error => {
@@ -115,20 +102,14 @@ axios.post('https://kd-email-test.myshopify.com/api/2023-04/graphql', { query:ge
 
 const addToCart = () => {
     const cartID = localStorage.getItem('cartID');
-    const checkOutID = localStorage.getItem('checkOutID');
     const variantIDAttribute = storeVariantID.getAttribute("variant-id");
 
     const addItemToCart = `
     mutation {
-        checkoutLineItemsAdd(checkoutId: "${checkOutID}", lineItems: {quantity: 1, variantId: "${variantIDAttribute}"}) {
-            checkout {
-              webUrl
-              id
-            }
-        }
         cartLinesAdd(cartId: "${cartID}", lines: {quantity: 1, merchandiseId: "${variantIDAttribute}"}) {
             cart {
               totalQuantity
+              checkoutUrl
             }
           }
     }`;
